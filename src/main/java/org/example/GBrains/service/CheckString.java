@@ -27,7 +27,8 @@ public class CheckString implements CheckFunctions {
             }
             return false;
         } catch (StringFormatException e) {
-            e.showCause();
+            //e.showCause();
+            e.printStackTrace();
             return true;
         }
 

@@ -6,9 +6,9 @@ import org.example.GBrains.model.RecordsBase;
 import java.util.Scanner;
 
 public class Task1Con implements TasksConsole {
-    int requiredFieldsNumber = 6;
     String[] requiredFields = new String[]{"Фамилия", "Имя", "Отчество", "ДатаРождения", "НомерТел", "Пол"};
     Boolean[] booleansFieldsResult = new Boolean[] {true, true, true};
+    int requiredFieldsNumber = booleansFieldsResult.length;
     RecordsBase record = new RecordTask1();
     boolean wasFirstIterationDone = false;
     int sureName = 0;
@@ -53,12 +53,12 @@ public class Task1Con implements TasksConsole {
     }
     public void initialCheck(boolean wasFirstIterationDone) {
         if (wasFirstIterationDone) {
-            System.out.println("Введите заново следующие поля: ");
-            for (int i = 0; i < booleansFieldsResult.length; i++) {
-                if (booleansFieldsResult[i]) {
-                    System.out.printf(requiredFields[i] + " ");
-                }
-            }
+            //System.out.println("Ошибки ниже: ");
+//            for (int i = 0; i < booleansFieldsResult.length; i++) {
+//                if (booleansFieldsResult[i]) {
+//                    System.out.printf(requiredFields[i] + " ");
+//                }
+//            }
         } else {
             System.out.println(initMessage);
         }
@@ -138,7 +138,7 @@ public class Task1Con implements TasksConsole {
     public void isStringWrong(String strToBeChecked, int field) {
         CheckFunctions checkString = new CheckString();
         if (checkString.isMistake(strToBeChecked)) {
-            String msg = " Неверный ввод: " + requiredFields[field] + ".\n";
+            String msg = " Введите заново: " + requiredFields[field] + ".\n";
             mistakes += msg;
             booleansFieldsResult [field] = true;
         } else {
