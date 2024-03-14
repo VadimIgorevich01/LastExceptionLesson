@@ -3,11 +3,14 @@ package org.example.GBrains.service;
 import org.example.GBrains.model.RecordTask1;
 import org.example.GBrains.model.RecordsBase;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Task1Con implements TasksConsole {
     String[] requiredFields = new String[]{"Фамилия", "Имя", "Отчество", "ДатаРождения", "НомерТел", "Пол"};
-    Boolean[] booleansFieldsResult = new Boolean[] {true, true, true};
+    Boolean[] booleansFieldsResult = new Boolean[] {true, true, true, true};
     int requiredFieldsNumber = booleansFieldsResult.length;
     RecordsBase record = new RecordTask1();
     boolean wasFirstIterationDone = false;
@@ -107,13 +110,17 @@ public class Task1Con implements TasksConsole {
             } else {
                 fieldCheckType = mistakeIndex;
             }
-            switch (fieldCheckType) {
-                case (0):
-                    isStringWrong(record[fieldTurn], mistakeIndex);
-                    ++fieldTurn;
-                    break;
+
+            isInputWrong(record[fieldTurn], mistakeIndex, fieldCheckType);
+            ++fieldTurn;
+
+//            switch (fieldCheckType) {
+//                case (0):
+//                    isInputWrong(record[fieldTurn], mistakeIndex, fieldCheckType);
+//                    ++fieldTurn;
+//                    break;
 //                case (3):
-//                    isStringWrong(recSplitNew[fieldTurn], fieldTurn);
+//                    isDateWrong(record[fieldTurn], mistakeIndex);
 //                    ++fieldTurn;
 //                    break;
 //                case (2):
@@ -124,7 +131,7 @@ public class Task1Con implements TasksConsole {
 //                    isStringWrong(recSplitNew[fieldTurn], fieldTurn);
 //                    ++fieldTurn;
 //                    break;
-            }
+//            }
 
             mistakeIndex = booleansFieldsResult.length + 1;;
             fieldCheckType = booleansFieldsResult.length + 1;
@@ -135,18 +142,49 @@ public class Task1Con implements TasksConsole {
         }
     }
 
-    public void isStringWrong(String strToBeChecked, int field) {
+//    private void isDateWrong(String date, int field) {
+//        CheckFunctions checkDate = new CheckDate();
+//        if (checkDate.isMistake(date)) {
+//            String msg = " Введите заново: Дату Рождения.\n";
+//            mistakes += msg;
+//            booleansFieldsResult [field] = true;
+//        } else {
+//            --howManyMistakes;
+//            if (record instanceof RecordTask1) {
+//                ((RecordTask1) record).set(field, date);
+//                System.out.println("Верный ввод " + requiredFields[field] + " : " + ((RecordTask1) record).get(field));
+//                booleansFieldsResult [field] = false;
+//            }
+//        }
+//    }
+
+    public void isInputWrong(String fieldToBeChecked, int fieldType, int functionType) {
         CheckFunctions checkString = new CheckString();
-        if (checkString.isMistake(strToBeChecked)) {
-            String msg = " Введите заново: " + requiredFields[field] + ".\n";
+        CheckFunctions checkDate = new CheckDate();
+        boolean result = true;
+        Object fieldObj = "";
+        switch (functionType) {
+            case (0):
+                result = checkString.isMistake(fieldToBeChecked);
+                fieldObj = fieldToBeChecked;
+                break;
+            case (3):
+                result = checkDate.isMistake(fieldToBeChecked);
+                if (!result) {
+                    fieldObj = ((CheckDate) checkDate).getDate();
+                }
+                break;
+        }
+        if (result) {
+            String msg = " Введите заново: " + requiredFields[fieldType] + ".\n";
             mistakes += msg;
-            booleansFieldsResult [field] = true;
+            booleansFieldsResult [fieldType] = true;
         } else {
             --howManyMistakes;
             if (record instanceof RecordTask1) {
-                ((RecordTask1) record).set(field, strToBeChecked);
-                System.out.println("Верный ввод " + requiredFields[field] + " : " + ((RecordTask1) record).get(field));
-                booleansFieldsResult [field] = false;
+                ((RecordTask1) record).set(fieldType, fieldObj);
+                System.out.println("Верный ввод " + requiredFields[fieldType] + " : " + ((RecordTask1) record).get(fieldType));
+                booleansFieldsResult [fieldType] = false;
             }
         }
     }

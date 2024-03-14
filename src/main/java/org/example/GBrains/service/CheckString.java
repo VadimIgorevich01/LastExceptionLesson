@@ -7,9 +7,8 @@ public class CheckString implements CheckFunctions {
     String allowedChars = "йцукенгшщзхъфывапролджэячсмитьбюё";
     char [] allowedCharsArr = allowedChars.toCharArray();
     @Override
-    public boolean isMistake(Object objToBeChecked) {
-        String getStr = (String) objToBeChecked;
-        String lowerCaseStr = getStr.toLowerCase();
+    public boolean isMistake(String objToBeChecked) {
+        String lowerCaseStr = objToBeChecked.toLowerCase();
         char [] strToBeChecked = lowerCaseStr.toCharArray();
         boolean noMatches = true;
         try {
@@ -33,4 +32,5 @@ public class CheckString implements CheckFunctions {
         }
 
     }
+
 }

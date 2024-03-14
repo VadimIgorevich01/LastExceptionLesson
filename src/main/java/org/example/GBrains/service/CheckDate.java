@@ -1,14 +1,24 @@
 package org.example.GBrains.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class CheckDate implements CheckFunctions {
+    private Date date;
+
+    public Date getDate() {
+        return date;
+    }
 
     @Override
-    public boolean isMistake(Object objToBeChecked) {
+    public boolean isMistake(String objToBeChecked) {
+        SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyy");
         try {
-            String getNumStr = (String) objToBeChecked;
-            int getNum = Integer.parseInt(getNumStr);
+            int testInt = Integer.parseInt(objToBeChecked);
+            date = formatter.parse(objToBeChecked);
             return false;
-        } catch (NumberFormatException e) {
+        } catch (ParseException e) {
             e.printStackTrace();
             return true;
         }
