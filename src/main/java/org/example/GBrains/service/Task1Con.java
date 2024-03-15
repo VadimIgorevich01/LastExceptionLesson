@@ -3,34 +3,23 @@ package org.example.GBrains.service;
 import org.example.GBrains.model.RecordTask1;
 import org.example.GBrains.model.RecordsBase;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Scanner;
 
 public class Task1Con implements TasksConsole {
-    String[] requiredFields = new String[]{"Фамилия", "Имя", "Отчество", "ДатаРождения", "НомерТел", "Пол"};
+    String[] requiredFields = new String[]{"Фамилия", "Имя", "Отчество",
+            "ДатаРождения", "НомерТел", "Пол"};
     Boolean[] booleansFieldsResult = new Boolean[] {true, true, true, true, true, true};
     RecordsBase record = new RecordTask1();
     boolean wasFirstIterationDone = false;
-    int sureName = 0;
-    int name = 1;
-    int patronymic = 2;
-    int birthDate = 3;
-    int numberTel = 4;
-    int sex = 5;
     public int howManyMistakes = booleansFieldsResult.length;
     public String mistakes = "";
-    public boolean isSureNameWrong = true;
-    public boolean isNameWrong = true;
-    public boolean isPatronymicWrong = true;
     Scanner scanner = new Scanner(System.in);
     String[] recSplitInitial;
 
     public int showNumFieldsRequired() {
         int counter = 0;
-        for (int i = 0; i < booleansFieldsResult.length; i++) {
-            if (booleansFieldsResult [i]) {
+        for (Boolean aBoolean : booleansFieldsResult) {
+            if (aBoolean) {
                 ++counter;
             }
         }
@@ -45,11 +34,13 @@ public class Task1Con implements TasksConsole {
         while (howManyMistakes != 0) {
             try {
                 if (wasFirstIterationDone) {
-                    System.out.println("На данный момент наша запись:\n" + record.toString());
+                    System.out.println("На данный момент наша запись:\n" +
+                            record.toString() + "\nИзучите, что нужно сделать в " +
+                            "выброшенных исключениях");
                     initialCheck(wasFirstIterationDone);
                 }
                 checkAllFields(recSplitInitial);
-                System.out.println("Все отлично. Было введено: " + record);
+                System.out.println("Все отлично. Записано в файл: " + record);
                 scanner.close();
             }
             catch (RuntimeException e) {
@@ -70,12 +61,12 @@ public class Task1Con implements TasksConsole {
         while (isRecordWrong) {
             System.out.println("Коды ошибок:\n1. Введено меньше, чем " + showNumFieldsRequired() +
             " значений\n2. Введено больше, чем " + showNumFieldsRequired() + " значений");
-            System.out.println("Введите данные еще раз, которые указаны в RuntimeException в поле \"Введите заново\"");
+            System.out.println("Введите данные еще раз, которые указаны в RuntimeException " +
+                    "в поле \"Введите заново\"");
             recordFrScanner = scanner.nextLine();
             recSplitInitial = recordFrScanner.split("\\s");
             isRecordWrong = isInitRecNotOkFunction(recSplitInitial);
         }
-
     }
 
 
@@ -154,7 +145,8 @@ public class Task1Con implements TasksConsole {
             --howManyMistakes;
             if (this.record instanceof RecordTask1) {
                 ((RecordTask1) this.record).set(mistakeIndex, fieldObj);
-                System.out.println("Верный ввод " + requiredFields[mistakeIndex] + " : " + ((RecordTask1) this.record).get(mistakeIndex));
+                System.out.println("Верный ввод " + requiredFields[mistakeIndex] + " : "
+                        + ((RecordTask1) this.record).get(mistakeIndex));
                 booleansFieldsResult [mistakeIndex] = false;
             }
         }

@@ -1,6 +1,6 @@
 package org.example.GBrains.service;
 
-import org.example.GBrains.model.StringFormatException;
+import org.example.GBrains.model.SureNameNamePatronymicFormatException;
 
 public class CheckString implements CheckFunctions {
 
@@ -20,16 +20,15 @@ public class CheckString implements CheckFunctions {
                     }
                 }
                 if (noMatches) {
-                    throw new StringFormatException("В строке могут быть только русские буквы, например, Вадим");
+                    throw new SureNameNamePatronymicFormatException("В фамилии, имени, отчестве " +
+                            "могут быть только русские буквы, например, Вадим");
                 }
                 noMatches = true;
             }
             return false;
-        } catch (StringFormatException e) {
+        } catch (SureNameNamePatronymicFormatException e) {
             e.printStackTrace();
             return true;
         }
-
     }
-
 }

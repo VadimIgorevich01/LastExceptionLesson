@@ -15,6 +15,5 @@ public class Controller {
     public void run() {
         recordForTask1 = task1Con.completeTask();
         recordToFile.record (recordForTask1);
-
     }
 }

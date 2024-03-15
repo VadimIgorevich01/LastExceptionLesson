@@ -20,7 +20,8 @@ public class CheckDate implements CheckFunctions {
             date = formatter.parse(fieldForChecking);
             char [] obj = fieldForChecking.toCharArray();
             if (obj.length != howManyDigitsInDate) {
-                throw new NumberFormatException("Для даты нужно 6 цифр. Например, 010395, значит 1 марта 1995 года");
+                throw new NumberFormatException("Для даты нужно 6 цифр. " +
+                        "Например, 010395, значит 1 марта 1995 года");
             }
             return false;
         } catch (NumberFormatException e) {

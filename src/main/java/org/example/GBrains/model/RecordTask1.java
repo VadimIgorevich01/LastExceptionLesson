@@ -12,7 +12,8 @@ public class RecordTask1 extends RecordsBase{
     String birthDateStr;
     long number;
 
-    public RecordTask1(String sureName, String name, String patronymic, Date birthDate, long number, String sex) {
+    public RecordTask1(String sureName, String name, String patronymic, Date birthDate, long number,
+                       String sex) {
         super(sureName, sex);
         this.name = name;
         this.patronymic = patronymic;
@@ -29,17 +30,27 @@ public class RecordTask1 extends RecordsBase{
         this.number = 00000000000L;
     }
 
+
     @Override
     public String toString() {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-YYYY");
         birthDateStr = formatter.format(birthDate);
+        String numberStr;
 
         Date MistakeBirthday = new Date(00, 00, 00);
         if (Objects.equals(birthDate, MistakeBirthday)) {
             birthDateStr = "НеверноДата";
         }
 
-        return "<" + super.getSureName() + ">  <" + this.name + ">  <" + this.patronymic + ">  <" + this.birthDateStr + ">  <" + this.number + ">  <" + super.getSex() + ">";
+        if (number == 0) {
+            numberStr = Long.toString(number);
+            numberStr = "НеверноТелефон";
+            return "<" + super.getSureName() + ">  <" + this.name + ">  <" + this.patronymic +
+                    ">  <" + this.birthDateStr + ">  <" + numberStr + ">  <" + super.getSex() + ">";
+        } else {
+            return "<" + super.getSureName() + ">  <" + this.name + ">  <" + this.patronymic +
+                    ">  <" + this.birthDateStr + ">  <" + this.number + ">  <" + super.getSex() + ">";
+        }
     }
 
     public void set(int fieldNumber, Object fieldToBeSavedObj) {

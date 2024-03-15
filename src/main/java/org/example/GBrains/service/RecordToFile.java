@@ -9,12 +9,11 @@ public class RecordToFile implements MakeRecord{
     @Override
     public void record(RecordsBase record) {
         String fileName = record.getSureName() + ".txt";
-        FileWriter fw = null;
-        try {
-            fw = new FileWriter(fileName, true);
-            fw.write(record.toString());
+        try (FileWriter fw = new FileWriter(fileName, true);){
+            fw.write("\n" + record.toString());
             fw.flush();
         } catch (IOException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
