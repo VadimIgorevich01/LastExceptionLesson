@@ -12,12 +12,20 @@ public class CheckDate implements CheckFunctions {
     }
 
     @Override
-    public boolean isMistake(String objToBeChecked) {
-        SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyy");
+    public boolean isMistake(String fieldForChecking) {
+        SimpleDateFormat formatter = new SimpleDateFormat("ddMMyy");
+        int howManyDigitsInDate = 6;
         try {
-            int testInt = Integer.parseInt(objToBeChecked);
-            date = formatter.parse(objToBeChecked);
+            int testInt = Integer.parseInt(fieldForChecking);
+            date = formatter.parse(fieldForChecking);
+            char [] obj = fieldForChecking.toCharArray();
+            if (obj.length != howManyDigitsInDate) {
+                throw new NumberFormatException("Для даты нужно 6 цифр. Например, 010395, значит 1 марта 1995 года");
+            }
             return false;
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return true;
         } catch (ParseException e) {
             e.printStackTrace();
             return true;

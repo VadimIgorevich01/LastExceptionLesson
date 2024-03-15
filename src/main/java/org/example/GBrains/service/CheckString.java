@@ -7,8 +7,8 @@ public class CheckString implements CheckFunctions {
     String allowedChars = "йцукенгшщзхъфывапролджэячсмитьбюё";
     char [] allowedCharsArr = allowedChars.toCharArray();
     @Override
-    public boolean isMistake(String objToBeChecked) {
-        String lowerCaseStr = objToBeChecked.toLowerCase();
+    public boolean isMistake(String fieldForChecking) {
+        String lowerCaseStr = fieldForChecking.toLowerCase();
         char [] strToBeChecked = lowerCaseStr.toCharArray();
         boolean noMatches = true;
         try {
@@ -20,13 +20,12 @@ public class CheckString implements CheckFunctions {
                     }
                 }
                 if (noMatches) {
-                    throw new StringFormatException();
+                    throw new StringFormatException("В строке могут быть только русские буквы, например, Вадим");
                 }
                 noMatches = true;
             }
             return false;
         } catch (StringFormatException e) {
-            //e.showCause();
             e.printStackTrace();
             return true;
         }

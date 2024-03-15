@@ -2,6 +2,7 @@ package org.example.GBrains.model;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 public class RecordTask1 extends RecordsBase{
 
@@ -32,6 +33,12 @@ public class RecordTask1 extends RecordsBase{
     public String toString() {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-YYYY");
         birthDateStr = formatter.format(birthDate);
+
+        Date MistakeBirthday = new Date(00, 00, 00);
+        if (Objects.equals(birthDate, MistakeBirthday)) {
+            birthDateStr = "НеверноДата";
+        }
+
         return super.getSureName() + " " + this.name + " " + this.patronymic + " " + this.birthDateStr + " " + this.number + " " + super.getSex();
     }
 
@@ -57,6 +64,8 @@ public class RecordTask1 extends RecordsBase{
                 this.birthDate = fieldToBeSavedDate;
                 break;
             case (4):
+//                fieldToBeSavedStr = (String) fieldToBeSavedObj;
+//                fieldToBeSavedLong = Long.parseLong(fieldToBeSavedStr);
                 fieldToBeSavedLong = (long) fieldToBeSavedObj;
                 this.number = fieldToBeSavedLong;
                 break;

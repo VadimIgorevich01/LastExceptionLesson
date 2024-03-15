@@ -10,8 +10,7 @@ import java.util.Scanner;
 
 public class Task1Con implements TasksConsole {
     String[] requiredFields = new String[]{"Фамилия", "Имя", "Отчество", "ДатаРождения", "НомерТел", "Пол"};
-    Boolean[] booleansFieldsResult = new Boolean[] {true, true, true, true};
-    int requiredFieldsNumber = booleansFieldsResult.length;
+    Boolean[] booleansFieldsResult = new Boolean[] {true, true, true, true, true};
     RecordsBase record = new RecordTask1();
     boolean wasFirstIterationDone = false;
     int sureName = 0;
@@ -27,9 +26,16 @@ public class Task1Con implements TasksConsole {
     public boolean isPatronymicWrong = true;
     Scanner scanner = new Scanner(System.in);
     String[] recSplitInitial;
-    public String troubleshootingInfo = "Коды ошибок:\n1. Введено меньше, чем " + requiredFieldsNumber +
-            " значений\n2. Введено больше, чем " + requiredFieldsNumber + " значений";
 
+    public int showNumFieldsRequired() {
+        int counter = 0;
+        for (int i = 0; i < booleansFieldsResult.length; i++) {
+            if (booleansFieldsResult [i]) {
+                ++counter;
+            }
+        }
+        return counter;
+    }
     public String initMessage = "Введите следующие данные, разделенные пробелом в заданном порядке: " +
             "\nФамилия Имя Отчество датаРождения номерТелефона пол";
 
@@ -56,27 +62,23 @@ public class Task1Con implements TasksConsole {
     }
     public void initialCheck(boolean wasFirstIterationDone) {
         if (wasFirstIterationDone) {
-            //System.out.println("Ошибки ниже: ");
-//            for (int i = 0; i < booleansFieldsResult.length; i++) {
-//                if (booleansFieldsResult[i]) {
-//                    System.out.printf(requiredFields[i] + " ");
-//                }
-//            }
         } else {
             System.out.println(initMessage);
         }
-
         String recordFrScanner = scanner.nextLine();
         recSplitInitial = recordFrScanner.split(" ");
         boolean isRecordWrong = isInitRecNotOkFunction(recSplitInitial);
         while (isRecordWrong) {
-            System.out.println(troubleshootingInfo);
-            System.out.println(initMessage);
+            System.out.println("Коды ошибок:\n1. Введено меньше, чем " + showNumFieldsRequired() +
+            " значений\n2. Введено больше, чем " + showNumFieldsRequired() + " значений");
+            System.out.println("Введите данные еще раз, которые указаны в RuntimeException в поле \"Введите заново\"");
             recordFrScanner = scanner.nextLine();
             recSplitInitial = recordFrScanner.split("\\s");
             isRecordWrong = isInitRecNotOkFunction(recSplitInitial);
         }
+
     }
+
 
     public boolean isInitRecNotOkFunction(String[] initRecSplit) {
         int counterReqFields = 0;
@@ -98,43 +100,12 @@ public class Task1Con implements TasksConsole {
         }
     }
     private void checkAllFields(String [] record) {
-        int mistakeIndex = booleansFieldsResult.length + 1;;
-        int fieldCheckType = booleansFieldsResult.length + 1;
         int fieldTurn = 0;
         for (int i = 0; i < booleansFieldsResult.length; i++) {
             if (booleansFieldsResult[i]) {
-                mistakeIndex = i;
+                isInputWrong(record[fieldTurn], i);
+                ++fieldTurn;
             }
-            if (mistakeIndex < 3) {
-                fieldCheckType = 0;
-            } else {
-                fieldCheckType = mistakeIndex;
-            }
-
-            isInputWrong(record[fieldTurn], mistakeIndex, fieldCheckType);
-            ++fieldTurn;
-
-//            switch (fieldCheckType) {
-//                case (0):
-//                    isInputWrong(record[fieldTurn], mistakeIndex, fieldCheckType);
-//                    ++fieldTurn;
-//                    break;
-//                case (3):
-//                    isDateWrong(record[fieldTurn], mistakeIndex);
-//                    ++fieldTurn;
-//                    break;
-//                case (2):
-//                    isStringWrong(recSplitNew[fieldTurn], fieldTurn);
-//                    ++fieldTurn;
-//                    break;
-//                case (3):
-//                    isStringWrong(recSplitNew[fieldTurn], fieldTurn);
-//                    ++fieldTurn;
-//                    break;
-//            }
-
-            mistakeIndex = booleansFieldsResult.length + 1;;
-            fieldCheckType = booleansFieldsResult.length + 1;
         }
         if (howManyMistakes > 0) {
             wasFirstIterationDone = true;
@@ -142,49 +113,45 @@ public class Task1Con implements TasksConsole {
         }
     }
 
-//    private void isDateWrong(String date, int field) {
-//        CheckFunctions checkDate = new CheckDate();
-//        if (checkDate.isMistake(date)) {
-//            String msg = " Введите заново: Дату Рождения.\n";
-//            mistakes += msg;
-//            booleansFieldsResult [field] = true;
-//        } else {
-//            --howManyMistakes;
-//            if (record instanceof RecordTask1) {
-//                ((RecordTask1) record).set(field, date);
-//                System.out.println("Верный ввод " + requiredFields[field] + " : " + ((RecordTask1) record).get(field));
-//                booleansFieldsResult [field] = false;
-//            }
-//        }
-//    }
-
-    public void isInputWrong(String fieldToBeChecked, int fieldType, int functionType) {
+    public void isInputWrong(String record, int mistakeIndex) {
         CheckFunctions checkString = new CheckString();
         CheckFunctions checkDate = new CheckDate();
-        boolean result = true;
+        CheckFunctions checkPhone = new CheckPhoneNumber();
+        boolean isBadResult = true;
         Object fieldObj = "";
-        switch (functionType) {
+        int fieldCheckType = mistakeIndex;
+        if (mistakeIndex == 0 || mistakeIndex == 1 || mistakeIndex == 2) {
+            fieldCheckType = 0;
+        }
+        switch (fieldCheckType) {
             case (0):
-                result = checkString.isMistake(fieldToBeChecked);
-                fieldObj = fieldToBeChecked;
+                isBadResult = checkString.isMistake(record);
+                fieldObj = record;
                 break;
             case (3):
-                result = checkDate.isMistake(fieldToBeChecked);
-                if (!result) {
+                isBadResult = checkDate.isMistake(record);
+                if (!isBadResult) {
                     fieldObj = ((CheckDate) checkDate).getDate();
                 }
                 break;
+            case (4):
+                isBadResult = checkPhone.isMistake(record);
+                if (!isBadResult) {
+                    long fieldToBeSavedLong = Long.parseLong(record);
+                    fieldObj = fieldToBeSavedLong;
+                }
+                break;
         }
-        if (result) {
-            String msg = " Введите заново: " + requiredFields[fieldType] + ".\n";
+        if (isBadResult) {
+            String msg = " Введите заново: " + requiredFields[mistakeIndex] + ".\n";
             mistakes += msg;
-            booleansFieldsResult [fieldType] = true;
+            booleansFieldsResult [mistakeIndex] = true;
         } else {
             --howManyMistakes;
-            if (record instanceof RecordTask1) {
-                ((RecordTask1) record).set(fieldType, fieldObj);
-                System.out.println("Верный ввод " + requiredFields[fieldType] + " : " + ((RecordTask1) record).get(fieldType));
-                booleansFieldsResult [fieldType] = false;
+            if (this.record instanceof RecordTask1) {
+                ((RecordTask1) this.record).set(mistakeIndex, fieldObj);
+                System.out.println("Верный ввод " + requiredFields[mistakeIndex] + " : " + ((RecordTask1) this.record).get(mistakeIndex));
+                booleansFieldsResult [mistakeIndex] = false;
             }
         }
     }
