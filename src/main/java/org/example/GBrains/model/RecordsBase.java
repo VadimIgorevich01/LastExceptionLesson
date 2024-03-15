@@ -14,11 +14,12 @@ public abstract class RecordsBase {
     }
 
     public String getSex() {
+
         return sex;
     }
 
     public void setSex(String sex) {
-        this.sex = sex;
+        this.sex = sex.toLowerCase();
     }
 
     public RecordsBase(String sureName, String sex) {

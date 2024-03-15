@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class Task1Con implements TasksConsole {
     String[] requiredFields = new String[]{"Фамилия", "Имя", "Отчество", "ДатаРождения", "НомерТел", "Пол"};
-    Boolean[] booleansFieldsResult = new Boolean[] {true, true, true, true, true};
+    Boolean[] booleansFieldsResult = new Boolean[] {true, true, true, true, true, true};
     RecordsBase record = new RecordTask1();
     boolean wasFirstIterationDone = false;
     int sureName = 0;
@@ -117,6 +117,7 @@ public class Task1Con implements TasksConsole {
         CheckFunctions checkString = new CheckString();
         CheckFunctions checkDate = new CheckDate();
         CheckFunctions checkPhone = new CheckPhoneNumber();
+        CheckFunctions checkSex = new CheckSex();
         boolean isBadResult = true;
         Object fieldObj = "";
         int fieldCheckType = mistakeIndex;
@@ -140,6 +141,10 @@ public class Task1Con implements TasksConsole {
                     long fieldToBeSavedLong = Long.parseLong(record);
                     fieldObj = fieldToBeSavedLong;
                 }
+                break;
+            case (5):
+                isBadResult = checkSex.isMistake(record);
+                fieldObj = record;
                 break;
         }
         if (isBadResult) {

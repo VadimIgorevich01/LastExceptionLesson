@@ -64,8 +64,6 @@ public class RecordTask1 extends RecordsBase{
                 this.birthDate = fieldToBeSavedDate;
                 break;
             case (4):
-//                fieldToBeSavedStr = (String) fieldToBeSavedObj;
-//                fieldToBeSavedLong = Long.parseLong(fieldToBeSavedStr);
                 fieldToBeSavedLong = (long) fieldToBeSavedObj;
                 this.number = fieldToBeSavedLong;
                 break;
