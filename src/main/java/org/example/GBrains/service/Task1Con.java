@@ -40,25 +40,24 @@ public class Task1Con implements TasksConsole {
             "\nФамилия Имя Отчество датаРождения номерТелефона пол";
 
     @Override
-    public void completeTask() {
+    public RecordsBase completeTask() {
         initialCheck(wasFirstIterationDone);
         while (howManyMistakes != 0) {
             try {
                 if (wasFirstIterationDone) {
                     System.out.println("На данный момент наша запись:\n" + record.toString());
                     initialCheck(wasFirstIterationDone);
-                    //recSplitCurrent = recSplitNew;
                 }
                 checkAllFields(recSplitInitial);
                 System.out.println("Все отлично. Было введено: " + record);
                 scanner.close();
-                //howManyMistakes = 0;
             }
             catch (RuntimeException e) {
                 mistakes = "";
                 e.printStackTrace();
             }
         }
+        return record;
     }
     public void initialCheck(boolean wasFirstIterationDone) {
         if (wasFirstIterationDone) {

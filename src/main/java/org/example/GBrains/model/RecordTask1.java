@@ -39,7 +39,7 @@ public class RecordTask1 extends RecordsBase{
             birthDateStr = "НеверноДата";
         }
 
-        return super.getSureName() + " " + this.name + " " + this.patronymic + " " + this.birthDateStr + " " + this.number + " " + super.getSex();
+        return "<" + super.getSureName() + ">  <" + this.name + ">  <" + this.patronymic + ">  <" + this.birthDateStr + ">  <" + this.number + ">  <" + super.getSex() + ">";
     }
 
     public void set(int fieldNumber, Object fieldToBeSavedObj) {
