@@ -13,18 +13,20 @@ public class CheckDate implements CheckFunctions {
 
     @Override
     public boolean isMistake(String fieldForChecking) {
-        SimpleDateFormat formatter = new SimpleDateFormat("ddMMyy");
-        int howManyDigitsInDate = 6;
+        SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyy");
+        int howManyDigitsInDate = 8;
         try {
             int testInt = Integer.parseInt(fieldForChecking);
             date = formatter.parse(fieldForChecking);
             char [] obj = fieldForChecking.toCharArray();
             if (obj.length != howManyDigitsInDate) {
-                throw new NumberFormatException("Для даты нужно 6 цифр. " +
-                        "Например, 010395, значит 1 марта 1995 года");
+                throw new NumberFormatException("Для даты нужно 8 цифр. " +
+                        "Например, 01031995, значит 1 марта 1995 года");
             }
             return false;
         } catch (NumberFormatException e) {
+            System.out.println("----------------------\n!!!Ввести дату нужно только цифрами без пробелов, " +
+                    "например, 01031995, значит, 1 марта 1995 год!!!\n----------------------");
             e.printStackTrace();
             return true;
         } catch (ParseException e) {
